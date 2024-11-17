@@ -1,6 +1,7 @@
 
 
-//Bank System [Last Modified by SV]
+
+//Bank System [Last Modified by SV] 17/11/2024
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,7 +65,7 @@ int main() {
                 userMenu(users, &numUsers);
                 break;
             case 3:
-                printf("\t\t\t\t\t\t Thank you for using Innovest. Goodbye!\n");
+                printf("\t\t\t\t\t\t Thank you for using Innovest. As-salamu alaykum!\n");
                 exit(0);
             default:
                 printf("\t\t\t\t\t\t Invalid choice. Please try again.\n");
@@ -317,14 +318,20 @@ void depositMoney(struct User *user) {
         printf("\t\t\t\t\t\t Invalid amount. Please try again.\n");
         return;
     }
+    printf("\n\t\t\t\t\t\t Processing your transaction.\n\t\t\t\t\t\t Please hold while we complete the verification process...\n");
+        for (int i = 3; i > 0; i--) {
+            printf("\t\t\t\t\t\t %d...\n", i);
+            sleep(1);
+        }
     user->balance += amount;
-    printf("\t\t\t\t\t\t Deposit successful. New balance: $%.2f\n", user->balance);
+    printf("\n\t\t\t\t\t\t Deposit successful. New balance: $%.2f\n", user->balance);
 
     // Log the deposit in transaction history
     char transactionDetails[100];
-    snprintf(transactionDetails, 100, "Deposited $%.2f", amount);
+    snprintf(transactionDetails, 100, "Deposited ");
     logTransaction(user, transactionDetails, "deposit", amount);
 }
+
 
 
 void transferMoney(struct User users[], int numUsers, struct User *user) {
@@ -334,7 +341,11 @@ void transferMoney(struct User users[], int numUsers, struct User *user) {
     scanf("%d", &recipientAccount);
     printf("\t\t\t\t\t\t Enter the amount to transfer: $");
     scanf("%lf", &amount);
-
+    printf("\n\t\t\t\t\t\t Initiating funds transfer.\n\t\t\t\t\t\t Please wait while we process your request....\n");
+    for (int i = 3; i > 0; i--) {
+        printf("\t\t\t\t\t\t %d...\n", i);
+        sleep(1);
+    }
     if (amount <= 0 || amount > user->balance) {
         printf("\t\t\t\t\t\t Invalid amount. Please try again.\n");
         return;
@@ -352,7 +363,7 @@ void transferMoney(struct User users[], int numUsers, struct User *user) {
             user->balance -= amount;
             users[i].balance += amount;
 
-            printf("\t\t\t\t\t\t Transfer successful! You sent $%.2f to account %d.\n", amount, recipientAccount);
+            printf("\n\t\t\t\t\t\t Transfer successful! You sent $%.2f to account %d.\n", amount, recipientAccount);
             printf("\t\t\t\t\t\t Your new balance: $%.2f\n", user->balance);
 
             // Log the transfer in both sender and recipient histories
@@ -375,16 +386,69 @@ void transferMoney(struct User users[], int numUsers, struct User *user) {
 
 void investMoney(struct User *user) {
     double amount;
-    printf("\t\t\t\t\t\t Enter amount to invest: ");
+    int choice;
+    printf("\n\t\t\t\t\t\t Please wait!\n\t\t\t\t\t\t while we verify the available investment opportunities....\n");
+    for (int i = 3; i > 0; i--) {
+        printf("\t\t\t\t\t\t %d...\n", i);
+        sleep(1);
+    }
+
+    printf("\n\t\t\t\t\t\t To invest, you need to pay a fee of $200.\n\n");
+
+        printf("\t\t\t\t\t\tToday's Investment Options:\n");
+    printf("\t\t\t\t\t\t 1. Tech Company A\n");
+    printf("\t\t\t\t\t\t 2. Tech Company B\n");
+    printf("\t\t\t\t\t\t 3. Tech Company C\n");
+    printf("\t\t\t\t\t\t 4. Tech Company D\n");
+    printf("\t\t\t\t\t\t 5. Tech Company E\n");
+
+    printf("\n\t\t\t\t\t\t Please choose your desired investment option: \n");
+    scanf("%d", &choice);
+
+    // Handle investment options with a switch statement
+    switch (choice) {
+        case 1:
+            printf("\n\t\t\t\t\t\t You have selected to invest in Tech Company A.\n");
+            break;
+        case 2:
+            printf("\n\t\t\t\t\t\t You have selected to invest in Tech Company B.\n");
+            break;
+        case 3:
+            printf("\n\t\t\t\t\t\t You have selected to invest in Tech Company C.\n");
+            break;
+        case 4:
+            printf("\n\t\t\t\t\t\t You have selected to invest in Tech Company D.\n");
+            break;
+        case 5:
+            printf("\n\t\t\t\t\t\t You have selected to invest in Tech Company E.\n");
+            break;
+        default:
+            printf("\t\t\t\t\t\t Invalid option selected. Returning to the main menu.\n");
+            return;
+    }
+
+
+        // Prompt the user for the investment amount
+    printf("\n\t\t\t\t\t\t Enter the amount to invest (excluding the fee): $");
     scanf("%lf", &amount);
 
+
+    printf("\n\t\t\t\t\t\t Please wait");
+    for (int i = 4; i > 0; i--) {
+        printf(".", i);
+        sleep(1);
+    }
+
+
+
     if (amount <= 0 || amount > user->balance) {
-        printf("\t\t\t\t\t\t Invalid amount. Please try again.\n");
+        printf("\n\t\t\t\t\t\t Invalid amount. Please try again.\n");
         return;
     }
 
-    user->balance -= amount;
-    printf("\t\t\t\t\t\t Investment successful. Your new balance is: $%.2f\n", user->balance);
+user->balance -= (amount + 200);
+
+    printf("\n\t\t\t\t\t\t Investment successful. Your new balance is(including fee): $%.2f\n", user->balance);
 
     // Log the investment as a deposit for record keeping
     logTransaction(user, "Investment", "deposit", amount);  // Investment is logged under deposits
@@ -426,5 +490,7 @@ void logTransaction(struct User *user, const char *transactionDetails, const cha
         snprintf(user->transferHistory[user->transferCount++], 50, "%s", transactionRecord);
     }
 }
+
+
 
 
