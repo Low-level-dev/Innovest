@@ -1,5 +1,5 @@
 
-
+//Bank System [Last Modified by SV] 13/12/2024
 //Bank System [Last Modified by SV] 17/11/2024
 
 #include <stdio.h>
@@ -81,7 +81,7 @@ void adminLogin(struct User users[], int numUsers) {
     printf("\t\t\t\t\t\t Enter admin password: ");
     scanf("%s", pword);
 
-    if (strcmp(uname, "admin") == 0 && strcmp(pword, "admin") == 0) {
+    if (strcmp(uname, "Admin") == 0 && strcmp(pword, "#ad12#") == 0) {
         printf("\t\t\t\t\t\t Admin login successful!\n");
         adminInterface(users, numUsers);
     } else {
@@ -192,7 +192,7 @@ void userSignUp(struct User users[], int *numUsers) {
 
     users[*numUsers] = newUser;
     (*numUsers)++;
-    printf("\t\t\t\t\t\t Account created successfully! Your account number is %d\n", newUser.accountNumber);
+    printf("\t\t\t\t\t\t Account created successfully!\n\t\t\t\t\t\t Your account number is %d\n", newUser.accountNumber);
 }
 
 // User interface function
@@ -386,13 +386,13 @@ void transferMoney(struct User users[], int numUsers, struct User *user) {
 void investMoney(struct User *user) {
     double amount;
     int choice;
-    printf("\n\t\t\t\t\t\t Please wait!\n\t\t\t\t\t\t while we verify the available investment opportunities....\n");
+    printf("\n\t\t\t\t\t\t Please wait!\n\t\t\t\t\t\t while we verify the available\n\t\t\t\t\t\t investment opportunities\n");
     for (int i = 3; i > 0; i--) {
         printf("\t\t\t\t\t\t %d...\n", i);
         sleep(1);
     }
 
-    printf("\n\t\t\t\t\t\t To invest, you need to pay a fee of $200.\n\n");
+    printf("\n\t\t\t\t\t\t To invest,\n\t\t\t\t\t\t you need to pay a fee of $5.\n\n");
 
         printf("\t\t\t\t\t\tToday's Investment Options:\n");
     printf("\t\t\t\t\t\t 1. Tech Company A\n");
@@ -401,7 +401,7 @@ void investMoney(struct User *user) {
     printf("\t\t\t\t\t\t 4. Tech Company D\n");
     printf("\t\t\t\t\t\t 5. Tech Company E\n");
 
-    printf("\n\t\t\t\t\t\t Please choose your desired investment option: \n");
+    printf("\n\t\t\t\t\t\t Please choose\n\t\t\t\t\t\t your desired investment option:");
     scanf("%d", &choice);
 
     // Handle investment options with a switch statement
@@ -428,7 +428,7 @@ void investMoney(struct User *user) {
 
 
         // Prompt the user for the investment amount
-    printf("\n\t\t\t\t\t\t Enter the amount to invest (excluding the fee): $");
+    printf("\n\t\t\t\t\t\t Enter the amount to invest \n\t\t\t\t\t\t(excluding the fee): $");
     scanf("%lf", &amount);
 
 
@@ -440,14 +440,14 @@ void investMoney(struct User *user) {
 
 
 
-    if (amount <= 0 || amount > user->balance) {
+    if ((amount <= 0 || amount > user->balance) || (amount <= 5 ) ){
         printf("\n\t\t\t\t\t\t Invalid amount. Please try again.\n");
         return;
     }
 
 user->balance -= (amount + 200);
 
-    printf("\n\t\t\t\t\t\t Investment successful. Your new balance is(including fee): $%.2f\n", user->balance);
+    printf("\n\t\t\t\t\t\t Investment successful.\n\t\t\t\t\t\t Your new balance is: $%.2f\n", user->balance);
 
     // Log the investment as a deposit for record keeping
     logTransaction(user, "Investment", "deposit", amount);  // Investment is logged under deposits
